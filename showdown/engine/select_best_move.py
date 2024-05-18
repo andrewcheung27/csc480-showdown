@@ -81,7 +81,8 @@ def pick_safest_custom(score_lookup, remove_guaranteed=False):
 
     if not safest_moves:
         logger.debug("No safest moves found. Returning default value")
-        return (constants.DO_NOTHING_MOVE, constants.DO_NOTHING_MOVE)  # Return a default value if safest_moves is empty
+        safest = max(worst_case, key=lambda x: worst_case[x][1])
+        return safest
 
     safest = max(safest_moves, key=lambda x: score_lookup[x])
 
