@@ -56,6 +56,30 @@ def pick_safest(score_lookup, remove_guaranteed=False):
     return worst_case[safest]
 
 
+def pick_safest_custom(score_lookup, remove_guaranteed=False):
+    modified_score_lookup = score_lookup
+    if remove_guaranteed:
+        modified_score_lookup = remove_guaranteed_opponent_moves(score_lookup)
+        if not modified_score_lookup:
+            modified_score_lookup = score_lookup
+    worst_case = defaultdict(lambda: (tuple(), float('inf')))
+    for move_pair, result in modified_score_lookup.items():
+        if worst_case[move_pair[0]][1] > result:
+            worst_case[move_pair[0]] = move_pair, result
+
+    safest_moves = []
+    max_damage = float('-inf')
+    for move_pair, result in worst_case.values():
+        if result > max_damage:
+            max_damage = result
+            safest_moves = [move_pair]
+        elif result == max_damage:
+            safest_moves.append(move_pair)
+
+    safest = max(safest_moves, key=lambda x: score_lookup[x])
+    return safest
+
+
 def move_item_to_front_of_list(l, item):
     all_indicies = list(range(len(l)))
     this_index = l.index(item)
