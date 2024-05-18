@@ -1,10 +1,13 @@
 import math
+import logging
 from collections import defaultdict
 
 import constants
 
 from .evaluate import evaluate
 from .find_state_instructions import get_all_state_instructions
+
+logger = logging.getLogger(__name__)
 
 
 WON_BATTLE = 100
@@ -77,6 +80,7 @@ def pick_safest_custom(score_lookup, remove_guaranteed=False):
             safest_moves.append(move_pair)
 
     if not safest_moves:
+        logger.debug("No safest moves found. Returning default value")
         return (constants.DO_NOTHING_MOVE, constants.DO_NOTHING_MOVE)  # Return a default value if safest_moves is empty
 
     safest = max(safest_moves, key=lambda x: score_lookup[x])
