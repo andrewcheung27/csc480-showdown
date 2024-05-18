@@ -76,7 +76,11 @@ def pick_safest_custom(score_lookup, remove_guaranteed=False):
         elif result == max_damage:
             safest_moves.append(move_pair)
 
+    if not safest_moves:
+        return (constants.DO_NOTHING_MOVE, constants.DO_NOTHING_MOVE)  # Return a default value if safest_moves is empty
+
     safest = max(safest_moves, key=lambda x: score_lookup[x])
+
     return safest
 
 
