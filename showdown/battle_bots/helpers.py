@@ -176,6 +176,6 @@ def pick_safest_move_using_dynamic_search_depth_custom(battles):
         raise ValueError("less than 1 battle?: {}".format(battles))
 
     bot_choice, payoff = pick_safest_custom(all_scores, remove_guaranteed=True)
-    logger.debug("Safest: {}, {}".format(bot_choice, payoff))
+    logger.debug("Safest Move: {}, {}".format(bot_choice, payoff))
     logger.debug("Depth: {}".format(search_depth))
     return bot_choice
