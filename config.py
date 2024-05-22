@@ -8,9 +8,6 @@ from environs import Env
 
 import constants
 
-env = Env()
-env.read_env(path="env", recurse=False)
-
 
 class CustomFormatter(logging.Formatter):
     def format(self, record):
@@ -67,25 +64,32 @@ class _ShowdownConfig:
     log_level: str
     log_to_file: bool
     log_handler: Union[CustomRotatingFileHandler, logging.StreamHandler]
+    env: Env
 
-    def configure(self):
-        self.battle_bot_module = env("BATTLE_BOT")
-        self.websocket_uri = env("WEBSOCKET_URI")
-        self.username = env("PS_USERNAME")
-        self.password = env("PS_PASSWORD")
-        self.bot_mode = env("BOT_MODE")
-        self.pokemon_mode = env("POKEMON_MODE")
+    def configure(self, env_path=None):
+        # IMPORTANT: this method should only be called once in the whole program
+        if env_path is None:
+            env_path = "env"
+        self.env = Env()
+        self.env.read_env(path=env_path, recurse=False)
 
-        self.run_count = env.int("RUN_COUNT", 1)
-        self.team = env("TEAM_NAME", None)
-        self.user_to_challenge = env("USER_TO_CHALLENGE", None)
+        self.battle_bot_module = self.env("BATTLE_BOT")
+        self.websocket_uri = self.env("WEBSOCKET_URI")
+        self.username = self.env("PS_USERNAME")
+        self.password = self.env("PS_PASSWORD")
+        self.bot_mode = self.env("BOT_MODE")
+        self.pokemon_mode = self.env("POKEMON_MODE")
 
-        self.save_replay = env.bool("SAVE_REPLAY", False)
-        self.room_name = env("ROOM_NAME", None)
-        self.damage_calc_type = env("DAMAGE_CALC_TYPE", "average")
+        self.run_count = self.env.int("RUN_COUNT", 1)
+        self.team = self.env("TEAM_NAME", None)
+        self.user_to_challenge = self.env("USER_TO_CHALLENGE", None)
 
-        self.log_level = env("LOG_LEVEL", "DEBUG")
-        self.log_to_file = env.bool("LOG_TO_FILE", False)
+        self.save_replay = self.env.bool("SAVE_REPLAY", False)
+        self.room_name = self.env("ROOM_NAME", None)
+        self.damage_calc_type = self.env("DAMAGE_CALC_TYPE", "average")
+
+        self.log_level = self.env("LOG_LEVEL", "DEBUG")
+        self.log_to_file = self.env.bool("LOG_TO_FILE", False)
 
         self.validate_config()
 
