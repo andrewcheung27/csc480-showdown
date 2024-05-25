@@ -59,6 +59,7 @@ def pick_safest(score_lookup, remove_guaranteed=False):
     return worst_case[safest]
 
 
+# our implementation of pick_safest using linear search with high damage output instead of max
 def pick_safest_custom(score_lookup, remove_guaranteed=False):
     modified_score_lookup = score_lookup
     if remove_guaranteed:
