@@ -9,9 +9,6 @@ from environs import Env
 import constants
 
 
-DEFAULT_ENV = "env"
-
-
 class CustomFormatter(logging.Formatter):
     def format(self, record):
         record.module = "[{}]".format(record.module)
@@ -72,7 +69,7 @@ class _ShowdownConfig:
     def configure(self, env_path=None):
         # IMPORTANT: this method should only be called once in the whole program
         if env_path is None:
-            env_path = DEFAULT_ENV
+            env_path = constants.DEFAULT_ENV
         self.env = Env()
         self.env.read_env(path=env_path, recurse=False)
 

@@ -45,6 +45,7 @@ def check_dictionaries_are_unmodified(original_pokedex, original_move_json):
 async def showdown(env_path=None):
     ShowdownConfig.configure(env_path)
     logger.debug("My name is " + ShowdownConfig.username)
+    logger.debug("My mode is" + ShowdownConfig.battle_bot_module)
 
     init_logging(
         ShowdownConfig.log_level,

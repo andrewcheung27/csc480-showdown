@@ -3,6 +3,7 @@ import logging
 import traceback
 
 import config
+import constants
 from run import showdown
 import sys
 
@@ -15,7 +16,7 @@ def main():
     # one bot should be set to accept challenges, the other bot should be set to challenge
     try:
         if len(sys.argv) <= 1:
-            logger.debug("Setting up default environment:", config.DEFAULT_ENV)
+            logger.debug("Setting up default environment:", constants.DEFAULT_ENV)
             asyncio.run(showdown())  # default to env
         else:
             env_path = sys.argv[1]
