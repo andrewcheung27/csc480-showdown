@@ -42,8 +42,18 @@ def check_dictionaries_are_unmodified(original_pokedex, original_move_json):
         logger.debug("Pokedex JSON unmodified!")
 
 
-async def showdown(env_path=None):
-    ShowdownConfig.configure(env_path)
+def write_record(wins: int, losses: int):
+    if ShowdownConfig.log_record is not None:
+        with open(ShowdownConfig.log_record, "a") as file:
+            for w in range(wins):
+                file.write("W")
+            for l in range(losses):
+                file.write("L")
+        logger.debug("Wrote record to {f}".format(f=ShowdownConfig.log_record))
+
+
+async def showdown(env_path=None, team=None, log_record=None):
+    ShowdownConfig.configure(env_path=env_path, team=team, log_record=log_record)
     logger.debug("My name is " + ShowdownConfig.username)
     logger.debug("My mode is" + ShowdownConfig.battle_bot_module)
 
@@ -98,6 +108,7 @@ async def showdown(env_path=None):
 
         battles_run += 1
         if battles_run >= ShowdownConfig.run_count:
+            write_record(wins, losses)
             break
 
 

@@ -64,14 +64,16 @@ class _ShowdownConfig:
     log_level: str
     log_to_file: bool
     log_handler: Union[CustomRotatingFileHandler, logging.StreamHandler]
+    log_record: str
     env: Env
 
-    def configure(self, env_path=None):
+    def configure(self, env_path=None, team=None, log_record=None):
         # IMPORTANT: this method should only be called once in the whole program
         if env_path is None:
             env_path = constants.DEFAULT_ENV
         self.env = Env()
         self.env.read_env(path=env_path, recurse=False)
+        self.log_record = log_record
 
         self.battle_bot_module = self.env("BATTLE_BOT")
         self.websocket_uri = self.env("WEBSOCKET_URI")
@@ -81,7 +83,7 @@ class _ShowdownConfig:
         self.pokemon_mode = self.env("POKEMON_MODE")
 
         self.run_count = self.env.int("RUN_COUNT", 1)
-        self.team = self.env("TEAM_NAME", None)
+        self.team = self.env("TEAM_NAME", None) if team is None else team
         self.user_to_challenge = self.env("USER_TO_CHALLENGE", None)
 
         self.save_replay = self.env.bool("SAVE_REPLAY", False)
