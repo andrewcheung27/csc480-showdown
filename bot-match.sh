@@ -9,14 +9,14 @@ for battle_bot in safest most_damage nash_equilibrium; do
 
   # search bot vs. battle bot: random battles with random teams each time
   for i in {1..100}; do
-    python3 bot_match.py -e env --log-record logs/record-rand-team.log &
+    python3 bot_match.py -e env --log-record logs/record-rand-team-vs-$battle_bot.log &
     python3 bot_match.py -e env_$battle_bot &
     wait
   done
 
   # search bot vs. battle bot: battles with the same team
   for i in {1..100}; do
-    python3 bot_match.py -e env_specificteam --log-record logs/record-same-team.log &
+    python3 bot_match.py -e env_specificteam --log-record logs/record-same-team-vs-$battle_bot.log &
     python3 bot_match.py -e env_specificteam_$battle_bot &
     wait
   done
