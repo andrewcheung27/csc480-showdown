@@ -5,7 +5,7 @@
 # (see https://stackoverflow.com/a/52033580)
 (trap 'kill 0' SIGINT;
 
-for battle_bot in safest most_damage nash_equilibrium; do
+for battle_bot in safest most_damage; do
 
   # search bot vs. battle bot: random battles with random teams each time
   for i in {1..100}; do
